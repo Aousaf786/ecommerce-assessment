@@ -1,5 +1,13 @@
 <template>
   <div>
+    <header class="top-header">
+      <div class="logo">
+        <img data-v-2a183b29="" src="https://media.istockphoto.com/id/1420172793/vector/connection-logo-business-global-technology-and-network.jpg?s=612x612&w=0&k=20&c=PSDmuJrOSV9k_GxXtvu8jKHLijvsCT9P9iTGXysPPY4=" alt="product image">
+      </div>
+      <div class="cart-icon">
+        <img data-v-2a183b29="" src="https://cdn-icons-png.freepik.com/512/565/565375.png" alt="product image" @click="toggleCart">
+      </div>
+    </header>
     <!-- Hero Section -->
     <div class="hero">
       <h1>Welcome to Voxel</h1>
@@ -30,34 +38,42 @@
     <div class="product-grid">
       <div v-for="product in filteredProducts" :key="product.id" class="product-item">
         <img :src="product.image" alt="product image" />
-        <h3>{{ product.title }}</h3>
-        <p>\${{ product.price }}</p>
+        <div class="item-content">
+          <h3>{{ product.title }}</h3>
+          <p>${{ product.price }}</p>
+        </div>
         <button @click="addToCart(product)">Add to Cart</button>
       </div>
     </div>
 
     <!-- Cart Popup -->
     <div v-if="cartOpen" class="cart-popup">
-      <button @click="toggleCart" class="close-btn">X</button>
-      <h2>Your Cart ({{ cart.length }})</h2>
+      <div class="cart-header">
+        <h2>Your Cart ({{ cart.length }})</h2>
+        <button @click="toggleCart" class="close-btn">X</button>
+      </div>
 
       <div v-for="item in cart" :key="item.id" class="cart-item">
-        <img :src="item.image" alt="item.title" />
+        <div class="image-holder">
+          <img :src="item.image" alt="item.title" />
+        </div>
         <div class="item-details">
           <h4>{{ item.title }}</h4>
-          <p>\${{ item.price }}</p>
-          <button @click="removeFromCart(item.id)">Remove</button>
+          <div class="price-item">
+            <p>\${{ item.price }}</p>
+            <button @click="removeFromCart(item.id)">Remove</button>
+          </div>
         </div>
       </div>
 
       <div class="cart-total">
-        <h3>Total: \${{ totalPrice }}</h3>
+        <div class="cart-total-amount">
+          <h3>Total:</h3>
+          <h3>${{ totalPrice }}</h3>
+        </div>
         <button class="checkout-btn">Continue to Checkout</button>
       </div>
     </div>
-
-    <!-- Cart Button -->
-    <button class="cart-btn" @click="toggleCart">Cart ({{ cart.length }})</button>
   </div>
 </template>
 
@@ -124,144 +140,270 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Basic layout for cart popup and product grid */
 .hero {
   text-align: center;
-  padding: 2rem;
-  background: #f4f4f4;
-}
-
-.categories ul {
+  padding: 3.125rem;
+  background-image: url('https://img.freepik.com/free-vector/neumorphic-white-layer-abstract-wallpaper-with-empty-space_1017-44320.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #000;
+  min-height: 18.75rem;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2rem;
+  flex-direction: column;
+
+  h1 {
+    margin-bottom: 1rem;
+  }
 }
 
-.categories li {
-  font-size: 1.2rem;
-  padding: 0.8rem 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 30px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+.categories {
+  border-bottom: 1px solid #eee;
+  padding: 1rem 0 0;
 
-.categories li.active,
-.categories li:hover {
-  background-color: #333;
-  color: white;
-  border-color: #333;
+  ul {
+    display: flex;
+    gap: 1rem;
+    list-style-type: none;
+    padding: 0;
+    max-width: 87.5rem;
+    justify-content: flex-start;
+    margin: auto;
+  }
+
+  li {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3125rem;
+    transition: background-color 0.3s ease;
+
+    &.active, &:hover {
+      color: #000;
+      border-bottom: 0.125rem solid #333;
+      border-radius: 0;
+    }
+  }
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 30px;
-  padding: 40px;
-}
+  grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  max-width: 87.5rem;
+  margin: auto;
 
-.product-item {
-  border: 1px solid #eee;
-  padding: 20px;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+  .product-item {
+    border: 1px solid #ccc;
+    padding: 1.25rem;
+    text-align: center;
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+    border-radius: 0.375rem;
 
-.product-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
+    &:hover {
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    }
 
-.product-item img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
-  margin-bottom: 15px;
-}
+    img {
+      max-width: 9.375rem;
+      height: 18.75rem;
+      object-fit: contain;
+      margin-bottom: 0.9375rem;
+    }
 
-.product-item h3 {
-  font-size: 1.2rem;
-  margin: 15px 0;
-  color: #333;
-}
+    h3 {
+      font-size: 1.1rem;
+      margin: 0.625rem 0;
+      color: #333;
+      text-align: left;
+      font-weight: 500;
+    }
 
-.product-item p {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #000;
-}
+    p {
+      font-size: 1rem;
+      text-align: left;
+      color: #998f8f;
+    }
 
-.product-item button {
-  background-color: #000;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
+    .item-content {
+      min-height: 4.375rem;
+    }
 
-.product-item button:hover {
-  background-color: #333;
+    button {
+      background-color: #e5e5e5;
+      color: #000;
+      border: none;
+      padding: 0.9375rem 1.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin: 1rem 0;
+      border-radius: 0.375rem;
+
+      &:hover {
+        background-color: #333;
+        color: #fff;
+      }
+    }
+  }
 }
 
 .cart-popup {
   position: fixed;
   right: 0;
   top: 0;
-  width: 400px;
+  width: 25rem;
   height: 100%;
   background-color: white;
-  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.3);
-  padding: 30px;
+  box-shadow: -0.125rem 0px 0.3125rem rgba(0, 0, 0, 0.2);
+  padding: 1.25rem;
   z-index: 100;
-  overflow-y: auto;
 }
 
-.cart-item img {
-  max-width: 80px;
-  height: auto;
-  border-radius: 5px;
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
 }
 
 .cart-item {
   display: flex;
-  gap: 10px;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
-}
+  gap: 0.625rem;
+  margin-bottom: 1rem;
 
-.item-details h4 {
-  margin-bottom: 5px;
-  font-size: 1.1rem;
-}
+  img {
+    max-width: 5rem;
+    height: auto;
+  }
 
-.item-details p {
-  font-size: 1rem;
+  .item-details {
+    flex-grow: 1;
+  }
 }
 
 .cart-total {
-  margin-top: 20px;
-  font-size: 1.5rem;
-  font-weight: bold;
+  margin-top: 1.25rem;
   text-align: center;
 }
 
+.checkout-btn {
+  background-color: #000;
+  color: white;
+  padding: 0.625rem;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
 
-@media (max-width: 768px) {
+.cart-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #000;
+  color: white;
+  padding: 0.625rem;
+  cursor: pointer;
+}
+
+.top-header {
+      display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: auto;
+}
+.top-header .logo{
+      max-width: 120px;
+}
+.top-header .cart-icon{
+      max-width: 30px;
+}
+.top-header img {
+  width: 100%;
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 1.5rem;
+  justify-content: space-between;
+}
+
+.cart-popup {
+  .image-holder {
+    min-height: 5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.375rem;
+    padding: 0.8rem;
+    max-width: 5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .cart-item img {
+    max-width: 5rem;
+    height: auto;
+    width: 100%;
+  }
+
+  .item-details p {
+    color: #a5a5a5;
+  }
+
+  .price-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+
+    button {
+      border: 0;
+      background: transparent;
+    }
+  }
+
+  .cart-total {
+    .cart-total-amount {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-top: 1px solid #eee;
+    }
+
+    .checkout-btn {
+      background-color: #462ddf;
+      border: none;
+      padding: 0.9375rem 1.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+      width: 100%;
+      margin: 1rem 0;
+      border-radius: 0.375rem;
+      color: #fff;
+    }
+  }
+}
+
+@media (max-width: 48rem) {
   .cart-popup {
-    width: 100%; /* Full width for mobile */
+    width: 100%;
   }
 
   .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
 
   .product-item img {
-    max-width: 100px;
+    max-width: 6.25rem;
   }
 }
 </style>

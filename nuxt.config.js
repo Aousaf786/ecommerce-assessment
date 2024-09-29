@@ -1,6 +1,12 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   target: 'server',
+  ssr: true,
+
+  server: {
+    port: process.env.PORT || 3000, // Default port for production
+    host: '0.0.0.0' // Make sure to listen on all network interfaces
+  },
   
   head: {
     title: 'ecommerce-website-assessment',
@@ -21,6 +27,13 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
+  build: {
+    loaders: {
+      scss: {
+        implementation: require('sass')
+      }
+    }
+  },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -42,8 +55,4 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/'
   },
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
 }
