@@ -1,4 +1,3 @@
-
 {
   "builds": [
     {
@@ -11,5 +10,14 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/**/*": {
+      "memory": 1024, // Adjust memory for serverless functions (optional)
+      "maxDuration": 10 // Max duration in seconds for serverless functions (optional)
+    }
+  }
 }
