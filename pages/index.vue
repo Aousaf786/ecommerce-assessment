@@ -5,7 +5,7 @@
         <img data-v-2a183b29="" src="https://media.istockphoto.com/id/1420172793/vector/connection-logo-business-global-technology-and-network.jpg?s=612x612&w=0&k=20&c=PSDmuJrOSV9k_GxXtvu8jKHLijvsCT9P9iTGXysPPY4=" alt="product image">
       </div>
       <div class="cart-icon">
-        <img data-v-2a183b29="" src="https://cdn-icons-png.freepik.com/512/565/565375.png" alt="product image" @click="toggleCart">
+        <img data-v-2a183b29="" src="https://cdn-icons-png.freepik.com/512/565/565375.png" alt="product-image" @click="toggleCart">
       </div>
     </header>
     <!-- Hero Section -->
